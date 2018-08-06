@@ -1,7 +1,8 @@
 package com.coffeeshop.util;
 
 /**
- * Created by superuser on 07-08-2018.
+ * Common static utility methods available to entire application
+ * @author Chandan
  */
 public class CoffeeShopUtils {
 }
