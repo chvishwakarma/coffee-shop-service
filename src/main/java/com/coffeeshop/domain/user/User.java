@@ -76,7 +76,7 @@ public class User extends BaseDomain{
         return StatusType.parse(this.status);
     }
 
-    public void setStatus(UserType status) {
+    public void setStatus(StatusType status) {
         this.status = status.getValue();
     }
 }

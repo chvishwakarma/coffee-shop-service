@@ -26,7 +26,7 @@ public class APIVersion {
     private final static String HEADER_SEPARATOR = "=";
 
     /**
-     * Custom HTTP header `VOUCH-API-VERSION` with empty value {@value}
+     * Custom HTTP header `COFFEESHOP-API-VERSION` with empty value {@value}
      */
     private final static String HEADER = CUSTOM_HEADER_KEY + HEADER_SEPARATOR;
 
@@ -36,7 +36,7 @@ public class APIVersion {
     private final static String VERSION_1 = "1";
 
     /**
-     * Custom HTTP header `VOUCH-API-VERSION` with value {@value}
+     * Custom HTTP header `COFFEESHOP-API-VERSION` with value {@value}
      */
     public static final String V1 = HEADER + VERSION_1;
 }
