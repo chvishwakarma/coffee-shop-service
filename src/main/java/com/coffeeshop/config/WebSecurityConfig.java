@@ -112,7 +112,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .and()
                     .authorizeRequests()
                     .antMatchers("/api/login").permitAll()
-                    .antMatchers("/api/staff/register").permitAll()
                     .and()
                     .authorizeRequests()
                     .antMatchers("/api/product/**").access("hasRole('STAFF')")
@@ -125,8 +124,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .addFilterBefore(new CORSFilterConfig(), ChannelProcessingFilter.class)
                     .addFilterBefore(customHeaderFilterConfig, ChannelProcessingFilter.class)
                     .addFilterBefore(getCustomAuthenticationFilter("/api/login"), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(getJwtAuthenticationFilter("/api/admin/**"), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(getJwtAuthenticationFilter("/api/staff/**"), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(getJwtAuthenticationFilter("/api/product/**"), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(getJwtAuthenticationFilter("/api/order/**"), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(getJwtAuthenticationFilter("/api/customer/**"), UsernamePasswordAuthenticationFilter.class)
                     .anonymous()
                     .disable();
     }

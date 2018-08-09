@@ -30,7 +30,7 @@ public class StaffRegisterRequestValidator implements Validator {
 
         StaffRegisterRequestDTO client = (StaffRegisterRequestDTO) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","Required[name]","name is required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"mobile","Required[mobile]","mobile is required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"contactNumber","Required[contactNumber]","mobile is required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"gender","Required[gender]","gender is required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"birthDate","Required[birthdate]","birth is required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"email","Required[email]","email is required");
@@ -56,7 +56,7 @@ public class StaffRegisterRequestValidator implements Validator {
                 pattern = Pattern.compile(PASSWORD_PATTERN);
                 matcher = pattern.matcher(client.getPassword());
                 if (!matcher.matches()) {
-                    errors.rejectValue("password", "Required [password]","Password must be alphanumeric with special character");
+                    errors.rejectValue("password", "Required [password]","Password must be alphanumeric with special character using Uppercase and Lowercase");
                 }
             }
         }

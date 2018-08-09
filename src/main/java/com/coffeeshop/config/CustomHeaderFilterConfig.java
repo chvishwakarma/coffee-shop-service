@@ -41,7 +41,6 @@ public class CustomHeaderFilterConfig extends OncePerRequestFilter {
         Response response1 = new Response(messageService);
 
         String header =  request.getHeader(APIVersion.CUSTOM_HEADER_KEY);
-        System.out.println("header -----------"+header);
 
         if (header != null && header !=""){
 

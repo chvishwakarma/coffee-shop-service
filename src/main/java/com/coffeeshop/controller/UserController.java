@@ -23,8 +23,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = Route.USER)
-@Api(tags="user", description = "Endpoint for user")
+@RequestMapping(value = Route.STAFF)
+@Api(tags="Staff", description = "Endpoint for staff")
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
