@@ -26,7 +26,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping(value = "/api")
-@Api(tags="Authentication", description = "Authentication Module Related Operations")
+@Api(tags="Authentication", description = "Authentication Endpoint")
 public class AuthenticationController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);

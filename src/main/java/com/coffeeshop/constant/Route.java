@@ -9,15 +9,18 @@ package com.coffeeshop.constant;
 public class Route {
 
 
-    /* USER ENDPOINTS*/
+    /* STAFF ENDPOINTS*/
     public static final String STAFF = "/api/staff";
     public static final String STAFF_REGISTER =  RouteEntity.REGISTER;
+    public static final String STAFF_ME =  RouteEntity.ME;
 
 
-    /* STAFF ENDPOINTS*/
+    /* PRODUCT ENDPOINTS*/
     public static final String PRODUCT_CREATE =  RouteEntity.REGISTER;
     public static final String PRODUCT_LIST =  RouteEntity.REGISTER;
     public static final String PRODUCT_BY_ID =  RouteEntity.REGISTER;
+
+    /* ORDER ENDPOINS */
     public static final String ORDER_CREATE =  RouteEntity.REGISTER;
     public static final String ORDER_LIST =  RouteEntity.REGISTER;
     public static final String CUSTOMER_LIST =  RouteEntity.REGISTER;

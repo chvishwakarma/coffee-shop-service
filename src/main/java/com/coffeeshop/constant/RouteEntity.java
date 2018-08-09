@@ -13,6 +13,7 @@ public class RouteEntity {
     public static final String ORDER = "order";
     public static final String CUSTOMER = "customer";
     public static final String REGISTER = "/";
+    public static final String ME = "/me";
     public static final String CREATE = "/";
     public static final String LIST = "/";
     public static final String BY_ID = "{id}";

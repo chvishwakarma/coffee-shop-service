@@ -117,6 +117,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .antMatchers("/api/product/**").access("hasRole('STAFF')")
                     .antMatchers("/api/order/**").access("hasRole('STAFF')")
                     .antMatchers("/api/customer/**").access("hasRole('STAFF')")
+                    .antMatchers("/api/staff/me/**").access("hasRole('STAFF')")
                     .and()
                     .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
                     .authenticationEntryPoint(customAuthenticationEntryPoint)
@@ -127,6 +128,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .addFilterBefore(getJwtAuthenticationFilter("/api/product/**"), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(getJwtAuthenticationFilter("/api/order/**"), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(getJwtAuthenticationFilter("/api/customer/**"), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(getJwtAuthenticationFilter("/api/staff/me/**"), UsernamePasswordAuthenticationFilter.class)
                     .anonymous()
                     .disable();
     }

@@ -1,6 +1,7 @@
 package com.coffeeshop.exception.handler;
 
 import com.coffeeshop.domain.Response;
+import com.coffeeshop.exception.StaffNotFoundException;
 import com.coffeeshop.service.common.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,15 @@ public class ExceptionController implements ErrorController {
         response.setStatus(com.coffeeshop.constant.ResponseStatus.FAIL)
                 .setMessage("field.validation.error")
                 .setData(processFieldErrors(fieldErrors),false);
+        return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(StaffNotFoundException.class)
+    public ResponseEntity staffNotFoundException(StaffNotFoundException ex) {
+        Response response  = new Response(messageService);
+        response.setStatus(com.coffeeshop.constant.ResponseStatus.FAIL)
+                .setMessage(ex.getMessage())
+                .setData(ex.getMessage(),true);
         return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
     }
 

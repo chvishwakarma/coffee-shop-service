@@ -2,16 +2,16 @@ package com.coffeeshop.controller;
 
 import com.coffeeshop.constant.*;
 import com.coffeeshop.domain.Response;
+import com.coffeeshop.domain.user.User;
 import com.coffeeshop.domain.user.staff.Staff;
 import com.coffeeshop.domain.user.staff.StaffAssembler;
 import com.coffeeshop.domain.user.staff.StaffRegisterRequestDTO;
 import com.coffeeshop.domain.user.staff.StaffRegisterRequestValidator;
+import com.coffeeshop.exception.StaffNotFoundException;
 import com.coffeeshop.service.StaffService;
 import com.coffeeshop.service.common.MessageService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.coffeeshop.util.CoffeeShopUtils;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = Route.STAFF)
 @Api(tags="Staff", description = "Endpoint for staff")
-public class UserController {
+public class StaffController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StaffController.class);
 
     @Autowired
     MessageService messageService;
@@ -80,6 +80,40 @@ public class UserController {
                     .setMessage("staff.register.fail");
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
+    }
+
+    @RequestMapping(value = Route.STAFF_ME,
+            headers = APIVersion.V1,
+            method = RequestMethod.GET)
+
+    @ApiOperation(
+            value = "Staff LOGGED IN DETAILS",
+            notes = "Returns authenticated Staff registered data",
+            produces = "application/json"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 500, message = "Server Error")
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+                    required = true, dataType = "string", paramType = "header")
+    })
+    public ResponseEntity me() throws StaffNotFoundException {
+
+        Response response = new Response(messageService);
+
+        User user = CoffeeShopUtils.getLoggedInUser().getUser();
+        Staff staff = staffService.getByID(user.getId());
+        if (staff != null){
+            response
+                    .setStatus(com.coffeeshop.constant.ResponseStatus.SUCCESS)
+                    .setMessage("staff.me.success")
+                    .setData(StaffAssembler.fromStaff(staff));
+        }else{
+            throw new StaffNotFoundException("staff.not.found");
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
