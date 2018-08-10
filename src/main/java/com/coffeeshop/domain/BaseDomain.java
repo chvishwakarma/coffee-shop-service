@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import static com.coffeeshop.util.CoffeeShopUtils.getLoggedInUser;
+
 /**
  * Base for all other entities to have common fields like
  * ID, CREATED_AT, UPDATED_AT
@@ -92,5 +94,27 @@ public abstract class BaseDomain implements Serializable{
 
     public void setUpdatedBy(Long updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    /**
+     * Sets createdAt before insert
+     */
+    @PrePersist
+    public void setCreationDate() {
+        this.createdAt = new Date();
+        if(null != getLoggedInUser()){
+            this.createdBy = getLoggedInUser().getUser().getId();
+        }
+    }
+
+    /**
+     * Sets updatedAt before update
+     */
+    @PreUpdate
+    public void setChangeDate() {
+        if(null != getLoggedInUser()) {
+            this.updatedAt = new Date();
+            this.updatedBy = getLoggedInUser().getUser().getId();
+        }
     }
 }
