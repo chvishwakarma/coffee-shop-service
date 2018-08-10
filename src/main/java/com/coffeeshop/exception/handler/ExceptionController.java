@@ -1,6 +1,7 @@
 package com.coffeeshop.exception.handler;
 
 import com.coffeeshop.domain.Response;
+import com.coffeeshop.exception.ProductNotFoundException;
 import com.coffeeshop.exception.StaffNotFoundException;
 import com.coffeeshop.service.common.MessageService;
 import org.slf4j.Logger;
@@ -53,6 +54,15 @@ public class ExceptionController implements ErrorController {
 
     @ExceptionHandler(StaffNotFoundException.class)
     public ResponseEntity staffNotFoundException(StaffNotFoundException ex) {
+        Response response  = new Response(messageService);
+        response.setStatus(com.coffeeshop.constant.ResponseStatus.FAIL)
+                .setMessage(ex.getMessage())
+                .setData(ex.getMessage(),true);
+        return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity productNotFoundException(ProductNotFoundException ex) {
         Response response  = new Response(messageService);
         response.setStatus(com.coffeeshop.constant.ResponseStatus.FAIL)
                 .setMessage(ex.getMessage())

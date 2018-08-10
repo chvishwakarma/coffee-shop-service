@@ -10,7 +10,6 @@ import java.util.Date;
  */
 public class StaffRegisterRequestDTO {
 
-    private Long id;
     private String email;
     private String password;
     private String confirmPassword;
