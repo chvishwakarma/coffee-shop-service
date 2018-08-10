@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = Route.ORDER)
+@RequestMapping(value = Route.PRODUCT)
 @Api(tags="Product", description = "Endpoint for Product")
 public class ProductController {
 
