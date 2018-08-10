@@ -17,6 +17,7 @@ public class OrderRequestDTO {
     private List<OrderItemRequestDTO> items = new ArrayList<>();
     private PaymentType paymentMode;
     private PaymentStatusType paymentStatus;
+    private Float discountAmount;
 
     public CustomerRequestDTO getCustomer() {
         return customer;
@@ -48,5 +49,13 @@ public class OrderRequestDTO {
 
     public void setPaymentStatus(PaymentStatusType paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public Float getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(Float discountAmount) {
+        this.discountAmount = discountAmount;
     }
 }

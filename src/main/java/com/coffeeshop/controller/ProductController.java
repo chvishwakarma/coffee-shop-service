@@ -205,7 +205,7 @@ public class ProductController {
                     .setMessage("product.found.success")
                     .setData(ProductAssembler.fromProduct(product));
         }else{
-            throw new ProductNotFoundException("product..not.found.exception");
+            throw new ProductNotFoundException("product.not.found.exception");
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

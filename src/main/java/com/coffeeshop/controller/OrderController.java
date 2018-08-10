@@ -4,8 +4,11 @@ import com.coffeeshop.constant.APIVersion;
 import com.coffeeshop.constant.ResponseStatus;
 import com.coffeeshop.constant.Route;
 import com.coffeeshop.domain.Response;
+import com.coffeeshop.domain.order.*;
 import com.coffeeshop.domain.product.*;
+import com.coffeeshop.exception.OrderNotFoundException;
 import com.coffeeshop.exception.ProductNotFoundException;
+import com.coffeeshop.service.OrderService;
 import com.coffeeshop.service.ProductService;
 import com.coffeeshop.service.common.MessageService;
 import io.swagger.annotations.*;
@@ -24,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = Route.ORDER)
-@Api(tags="Product", description = "Endpoint for Orders")
+@Api(tags="Order", description = "Endpoint for Orders")
 public class OrderController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
@@ -33,10 +36,10 @@ public class OrderController {
     MessageService messageService;
 
     @Autowired
-    ProductRequestValidator productRequestValidator;
+    OrderRequestValidator orderRequestValidator;
 
     @Autowired
-    ProductService productService;
+    OrderService orderService;
 
     @RequestMapping(value = Route.ORDER_CREATE,
             headers = APIVersion.V1,
@@ -54,36 +57,36 @@ public class OrderController {
             @ApiImplicitParam(name = "Authorization", value = "Authorization token",
                     required = true, dataType = "string", paramType = "header")
     })
-    public ResponseEntity createProduct(@RequestBody ProductRequestDTO productRequestDTO,
+    public ResponseEntity createOrder(@RequestBody OrderRequestDTO orderRequestDTO,
                                         BindingResult errors)
             throws NoSuchMethodException,MethodArgumentNotValidException {
 
         Response response = new Response(messageService);
-        productRequestValidator.validate(productRequestDTO,errors);
+        orderRequestValidator.validate(orderRequestDTO,errors);
 
         if(errors.hasErrors()){
-            LOGGER.debug("Errors in creating product form {}",productRequestDTO);
+            LOGGER.debug("Errors in creating product form {}",orderRequestDTO);
             throw new MethodArgumentNotValidException(
                     new MethodParameter(
                             this.getClass()
                                     .getDeclaredMethod(
-                                            "createProduct",
+                                            "createOrder",
                                             ProductRequestDTO.class,
                                             BindingResult.class),
                             0),errors);
         }
 
-        Product product = productService.create(productRequestDTO);
-        if (product != null){
+        Order order = orderService.create(orderRequestDTO);
+        if (order != null){
             response
                     .setStatus(ResponseStatus.SUCCESS)
-                    .setMessage("product.create.success")
-                    .setData(ProductAssembler.fromProduct(product));
+                    .setMessage("order.create.success")
+                    .setData(OrderAssembler.fromOrder(order));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }else {
             response
                     .setStatus(ResponseStatus.FAIL)
-                    .setMessage("product.create.fail");
+                    .setMessage("order.create.fail");
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
     }
@@ -105,31 +108,31 @@ public class OrderController {
             @ApiImplicitParam(name = "Authorization", value = "Authorization token",
                     required = true, dataType = "string", paramType = "header")
     })
-    public ResponseEntity getActiveProducts(){
+    public ResponseEntity getAllOrders(){
 
         Response response = new Response(messageService);
-        List<ProductWebDTO> webDTOList = new ArrayList<>();
-        List<Product> allActiveProduct = productService.findAllActive();
-        if (allActiveProduct != null && allActiveProduct.size()>0){
+        List<OrderWebDTO> webDTOList = new ArrayList<>();
+        List<Order> allOrders = orderService.getAll();
+        if (allOrders != null && allOrders.size()>0){
             response
                     .setStatus(ResponseStatus.SUCCESS)
-                    .setMessage("product.list.success")
-                    .setData(ProductAssembler.fromProductList(allActiveProduct));
+                    .setMessage("order.list.success")
+                    .setData(OrderAssembler.fromOrderList(allOrders));
         }else{
             response
                     .setStatus(ResponseStatus.FAIL)
-                    .setMessage("product.list.fail")
+                    .setMessage("order.list.fail")
                     .setData(webDTOList);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(value = Route.PRODUCT_BY_ID,
+    @RequestMapping(value = Route.ORDER_BY_ID,
             headers = APIVersion.V1,
             method = RequestMethod.GET)
     @ApiOperation(
-            value = "GET PRODUCT BY ID",
-            notes = "Return product by ID",
+            value = "GET Order BY ID",
+            notes = "Return order by ID",
             produces = "application/json"
     )
     @ApiResponses(value = {
@@ -139,17 +142,17 @@ public class OrderController {
             @ApiImplicitParam(name = "Authorization", value = "Authorization token",
                     required = true, dataType = "string", paramType = "header")
     })
-    public ResponseEntity getProductByID(@PathVariable("id") Long id) throws ProductNotFoundException{
+    public ResponseEntity getOrderByID(@PathVariable("id") Long id) throws OrderNotFoundException{
 
         Response response = new Response(messageService);
-        Product product = productService.findByID(id);
-        if (product != null){
+        Order order = orderService.getByID(id);
+        if (order != null){
             response
                     .setStatus(ResponseStatus.SUCCESS)
-                    .setMessage("product.found.success")
-                    .setData(ProductAssembler.fromProduct(product));
+                    .setMessage("order.found.success")
+                    .setData(OrderAssembler.fromOrder(order));
         }else{
-            throw new ProductNotFoundException("product..not.found.exception");
+            throw new OrderNotFoundException("order.not.found.exception");
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

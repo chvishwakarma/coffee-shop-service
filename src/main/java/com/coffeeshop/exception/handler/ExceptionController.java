@@ -1,6 +1,7 @@
 package com.coffeeshop.exception.handler;
 
 import com.coffeeshop.domain.Response;
+import com.coffeeshop.exception.OrderNotFoundException;
 import com.coffeeshop.exception.ProductNotFoundException;
 import com.coffeeshop.exception.StaffNotFoundException;
 import com.coffeeshop.service.common.MessageService;
@@ -63,6 +64,15 @@ public class ExceptionController implements ErrorController {
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity productNotFoundException(ProductNotFoundException ex) {
+        Response response  = new Response(messageService);
+        response.setStatus(com.coffeeshop.constant.ResponseStatus.FAIL)
+                .setMessage(ex.getMessage())
+                .setData(ex.getMessage(),true);
+        return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity orderNotFoundException(OrderNotFoundException ex) {
         Response response  = new Response(messageService);
         response.setStatus(com.coffeeshop.constant.ResponseStatus.FAIL)
                 .setMessage(ex.getMessage())

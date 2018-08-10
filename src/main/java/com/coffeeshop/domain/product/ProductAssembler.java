@@ -32,6 +32,28 @@ public class ProductAssembler {
         return productWebDTO;
     }
 
+    public static ProductItemDTO fromProductToItem(Product product){
+        final ProductItemDTO productItemDTO = new ProductItemDTO();
+        productItemDTO.setId(product.getId());
+        productItemDTO.setName(product.getName());
+        productItemDTO.setDescription(product.getDescription());
+        productItemDTO.setPrice(product.getPrice());
+        return productItemDTO;
+    }
+
+    public static List<ProductItemDTO> fromProductListToItemList(List<Product> productList){
+        final List<ProductItemDTO> webDTOList = new ArrayList<>();
+        for (Product product : productList){
+            ProductItemDTO productItemDTO = new ProductItemDTO();
+            productItemDTO.setId(product.getId());
+            productItemDTO.setName(product.getName());
+            productItemDTO.setDescription(product.getDescription());
+            productItemDTO.setPrice(product.getPrice());
+            webDTOList.add(productItemDTO);
+        }
+        return webDTOList;
+    }
+
     public static List<ProductWebDTO> fromProductList(List<Product> productList){
         final List<ProductWebDTO> webDTOList = new ArrayList<>();
         for (Product product : productList){
